@@ -23,4 +23,5 @@ public class TaskEditor {
         task.setName(newName);
         taskRepository.save(task);
     }
+
 }
