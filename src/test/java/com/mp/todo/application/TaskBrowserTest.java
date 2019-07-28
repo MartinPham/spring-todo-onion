@@ -2,6 +2,7 @@ package com.mp.todo.application;
 
 import com.mp.todo.domain.Task;
 import com.mp.todo.domain.exception.BadNameException;
+import com.mp.todo.domain.factory.TaskFactory;
 import com.mp.todo.domain.repository.TaskRepository;
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,8 +39,8 @@ class TaskBrowserTest {
     void getTaskList() throws BadNameException {
         when(taskRepository.findAll())
                 .thenReturn(Arrays.asList(
-                        new Task("t1"),
-                        new Task("t2")
+                        TaskFactory.buildTaskWithName("t1"),
+                        TaskFactory.buildTaskWithName("t2")
                 ));
 
 
