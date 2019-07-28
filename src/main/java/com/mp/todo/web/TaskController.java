@@ -23,13 +23,21 @@ public class TaskController {
     TaskEditor taskEditor;
 
     @GetMapping("/task")
-    public String index(Model model, @RequestParam("name") String name) throws BadNameException {
+    public String index(Model model, @RequestParam("idx") int idx) throws BadNameException {
         taskEditor.createNewTask("T1");
         taskEditor.createNewTask("T2");
 
-        List<Task> tasks = taskBrowser.getTaskList();
 
-        model.addAttribute("name", tasks.get(1).getName());
+        List<Task> tasks = taskBrowser.getTaskList();
+        Task task1 = tasks.get(0);
+        Task task2 = tasks.get(1);
+
+        taskEditor.changeTaskName(task1.getId(), "ZZZ1");
+        taskEditor.changeTaskName(task2.getId(), "ZZZ2");
+
+        List<Task> tasks2 = taskBrowser.getTaskList();
+
+        model.addAttribute("name", tasks2.get(idx).getName());
         return "web/task/index";
     }
 }
