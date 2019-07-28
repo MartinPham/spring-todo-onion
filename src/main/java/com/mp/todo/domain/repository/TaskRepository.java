@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface TaskRepository {
     List<Task> findAll();
+    Task find(String taskId);
     void save(Task task);
-    void remove(Task task);
+    void delete(Task task);
 }
