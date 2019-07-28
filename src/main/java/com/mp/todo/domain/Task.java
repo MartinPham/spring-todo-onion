@@ -9,15 +9,19 @@ public class Task {
     String name;
 
     public Task(String name) throws BadNameException {
-        this.id = UUID.randomUUID();
-        this.setName(name);
+        id = UUID.randomUUID();
+        setName(name);
     }
 
-    public void setName(String name) throws BadNameException {
-        if (name.isEmpty())
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String newName) throws BadNameException {
+        if (newName.isEmpty())
         {
             throw new BadNameException("Task name should not be empty");
         }
-        this.name = name;
+        name = newName;
     }
 }
