@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class TaskController {
     @RequestMapping("/task")
-    public ResponseEntity<String> index()
+    public String index()
     {
-        return new ResponseEntity<>("", HttpStatus.OK);
+        return "web/task/index";
     }
 }
