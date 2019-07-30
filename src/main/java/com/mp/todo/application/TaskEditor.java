@@ -26,4 +26,10 @@ public class TaskEditor {
         taskRepository.save(task);
     }
 
+    public void changeTaskNameByUser(User user, String taskId, String newName) throws BadNameException {
+        Task task = taskRepository.findByUserAndId(user, taskId);
+        task.setName(newName);
+        taskRepository.save(task);
+    }
+
 }

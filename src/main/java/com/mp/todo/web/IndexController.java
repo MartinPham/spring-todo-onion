@@ -27,8 +27,8 @@ public class IndexController {
     @Autowired
     RoleJpaRepository roleJpaRepository;
 
-    @GetMapping("/")
-    public ResponseEntity<String> index() throws BadNameException {
+    @GetMapping("/init")
+    public ResponseEntity<String> init() throws BadNameException {
         String output = "";
 
         taskJpaRepository.deleteAllInBatch();
@@ -45,11 +45,18 @@ public class IndexController {
         userRole.setName("ROLE_USER");
         roleJpaRepository.save(userRole);
 
-        User user = new User();
-        user.setName("user");
-        user.setPassword(encoder.encode("u"));
-        user.addRole(userRole);
-        userJpaRepository.save(user);
+        User user1 = new User();
+        user1.setName("user1");
+        user1.setPassword(encoder.encode("u1"));
+        user1.addRole(userRole);
+        userJpaRepository.save(user1);
+
+
+        User user2 = new User();
+        user2.setName("user2");
+        user2.setPassword(encoder.encode("u2"));
+        user2.addRole(userRole);
+        userJpaRepository.save(user2);
 
         User admin = new User();
         admin.setName("admin");
@@ -60,16 +67,14 @@ public class IndexController {
 
         Task task1 = new Task();
         task1.setName("T1");
-        task1.setUser(user);
+        task1.setUser(user1);
         taskJpaRepository.save(task1);
 
-        User _admin = userJpaRepository.findByName("admin");
-        List<Role> roles = _admin.getRoles();
+        Task task2 = new Task();
+        task2.setName("T2");
+        task2.setUser(user2);
+        taskJpaRepository.save(task2);
 
-        for(Role role : roles)
-        {
-            output += role.getName() + " - ";
-        }
 
         return new ResponseEntity<>(output, HttpStatus.OK);
     }

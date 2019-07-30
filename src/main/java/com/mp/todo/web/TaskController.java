@@ -46,17 +46,19 @@ public class TaskController {
     }
 
     @GetMapping("/task/{id}/edit")
-    public String edit(Model model, @PathVariable String id) {
+    public String edit(Model model, Principal principal, @PathVariable String id) {
+        User user = userJpaRepository.findByName(principal.getName());
 
-        Task task = taskBrowser.getTaskDetail(id);
+        Task task = taskBrowser.getTaskDetailByUser(user, id);
 
         model.addAttribute("task", task);
         return "web/task/edit";
     }
 
     @PostMapping("/task/{id}/edit")
-    public String edit(@PathVariable String id, @RequestParam("name") String name) throws BadNameException {
-        taskEditor.changeTaskName(id, name);
+    public String edit(@PathVariable String id, Principal principal, @RequestParam("name") String name) throws BadNameException {
+        User user = userJpaRepository.findByName(principal.getName());
+        taskEditor.changeTaskNameByUser(user, id, name);
         return "redirect:/task";
     }
 }

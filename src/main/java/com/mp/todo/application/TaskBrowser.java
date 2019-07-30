@@ -25,4 +25,7 @@ public class TaskBrowser {
     public Task getTaskDetail(String id) {
         return taskRepository.find(id);
     }
+    public Task getTaskDetailByUser(User user, String id) {
+        return taskRepository.findByUserAndId(user, id);
+    }
 }

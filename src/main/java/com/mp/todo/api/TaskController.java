@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 import java.util.List;
 
-@RestController
-public class TaskApiController {
+@RestController("api.task")
+public class TaskController {
     @Autowired
     TaskBrowser taskBrowser;
 

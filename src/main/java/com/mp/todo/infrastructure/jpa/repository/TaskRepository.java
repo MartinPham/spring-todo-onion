@@ -24,6 +24,11 @@ public class TaskRepository implements com.mp.todo.domain.repository.TaskReposit
     }
 
     @Override
+    public Task findByUserAndId(User user, String taskId) {
+        return taskJpaRepository.findByUserAndId(user, taskId);
+    }
+
+    @Override
     public List<Task> findAllByUser(User user) {
         return taskJpaRepository.findAllByUser(user);
     }

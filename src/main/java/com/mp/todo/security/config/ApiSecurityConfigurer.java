@@ -44,13 +44,10 @@ public class ApiSecurityConfigurer extends WebSecurityConfigurerAdapter {
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and().authorizeRequests().antMatchers("/api/auth/**").permitAll()
-                .and().authorizeRequests().antMatchers("/api/task").hasAnyRole("USER", "ADMIN")
-                .and().authorizeRequests().antMatchers("/api/task/*/edit").hasRole("ADMIN")
-                .and().authorizeRequests().antMatchers("/api/task/add").hasRole("ADMIN")
-                ;
-
-
-
+                .and().authorizeRequests().antMatchers("/api/task").hasRole("USER")
+                .and().authorizeRequests().antMatchers("/api/task/*/edit").hasRole("USER")
+                .and().authorizeRequests().antMatchers("/api/task/add").hasRole("USER")
+        ;
     }
 
 
