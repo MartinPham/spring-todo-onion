@@ -21,8 +21,9 @@ import java.util.Date;
 public class JWTResponseFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
 
-    public JWTResponseFilter(AuthenticationManager authenticationManager) {
+    public JWTResponseFilter(AuthenticationManager authenticationManager, String filterProcessesUrl) {
         this.authenticationManager = authenticationManager;
+        setFilterProcessesUrl(filterProcessesUrl);
     }
 
     @Override

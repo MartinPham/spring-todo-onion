@@ -15,8 +15,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-//@EnableWebSecurity
-//@Order(2)
+@EnableWebSecurity
+@Configuration
+@Order(2)
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
     AppUserDetailsService userDetailsService;
@@ -33,24 +34,22 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+        http
+                .csrf().disable()
+                .authorizeRequests().and().formLogin()
+                    .loginProcessingUrl("/auth")
+                    .loginPage("/auth/login")
+                    .defaultSuccessUrl("/task")
+                    .failureUrl("/auth/login?status=failure")
+                    .usernameParameter("username")
+                    .passwordParameter("password")
+                    .and().logout().logoutUrl("/auth/logout").logoutSuccessUrl("/task")
 
-        http.authorizeRequests().antMatchers("/auth/**").permitAll();
+                .and().authorizeRequests().antMatchers("/auth/**").permitAll()
+                .and().authorizeRequests().antMatchers("/task").hasAnyRole("USER", "ADMIN")
+                .and().authorizeRequests().antMatchers("/task/*/edit").hasRole("ADMIN")
+                .and().authorizeRequests().antMatchers("/task/add").hasRole("ADMIN");
 
-        http.authorizeRequests().antMatchers("/task").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
-        http.authorizeRequests().antMatchers("/task/*/edit").access("hasRole('ROLE_ADMIN')");
-        http.authorizeRequests().antMatchers("/task/add").access("hasRole('ROLE_ADMIN')");
-
-        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/auth/login");
-
-        http.authorizeRequests().and().formLogin()
-                .loginProcessingUrl("/auth")
-                .loginPage("/auth/login")
-                .defaultSuccessUrl("/task")
-                .failureUrl("/auth/login?status=failure")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .and().logout().logoutUrl("/auth/logout").logoutSuccessUrl("/task");
 
 
     }

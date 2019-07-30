@@ -15,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
+@Configuration
 @Order(1)
 public class ApiSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -33,19 +34,22 @@ public class ApiSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                .antMatcher("/api/**")
+                .authorizeRequests()
+                .and()
+                    .addFilter( new JWTResponseFilter(authenticationManager(), "/api/auth"))
+                    .addFilter(new JWTRequestFilter(authenticationManager(), userDetailsService))
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-        http.csrf().disable();
+                .and().authorizeRequests().antMatchers("/api/auth/**").permitAll()
+                .and().authorizeRequests().antMatchers("/api/task").hasAnyRole("USER", "ADMIN")
+                .and().authorizeRequests().antMatchers("/api/task/*/edit").hasRole("ADMIN")
+                .and().authorizeRequests().antMatchers("/api/task/add").hasRole("ADMIN")
+                ;
 
-        http.authorizeRequests().antMatchers("/api/auth/**").permitAll();
 
-        http.authorizeRequests().antMatchers("/api/task").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
-        http.authorizeRequests().antMatchers("/api/task/*/edit").access("hasRole('ROLE_ADMIN')");
-        http.authorizeRequests().antMatchers("/api/task/add").access("hasRole('ROLE_ADMIN')");
-
-        http.authorizeRequests().and()
-                .addFilter(new JWTResponseFilter(authenticationManager()))
-                .addFilter(new JWTRequestFilter(authenticationManager(), userDetailsService))
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
     }
 
