@@ -1,7 +1,5 @@
 package com.mp.todo.web;
 
-import com.mp.todo.application.TaskBrowser;
-import com.mp.todo.application.TaskEditor;
 import com.mp.todo.domain.Role;
 import com.mp.todo.domain.Task;
 import com.mp.todo.domain.User;
@@ -12,8 +10,8 @@ import com.mp.todo.infrastructure.jpa.repository.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
@@ -37,23 +35,25 @@ public class IndexController {
         userJpaRepository.deleteAllInBatch();
         roleJpaRepository.deleteAllInBatch();
 
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
         Role adminRole = new Role();
-        adminRole.setName("ADMIN");
+        adminRole.setName("ROLE_ADMIN");
         roleJpaRepository.save(adminRole);
 
         Role userRole = new Role();
-        userRole.setName("USER");
+        userRole.setName("ROLE_USER");
         roleJpaRepository.save(userRole);
 
         User user = new User();
         user.setName("user");
-        user.setPassword("u");
+        user.setPassword(encoder.encode("u"));
         user.addRole(userRole);
         userJpaRepository.save(user);
 
         User admin = new User();
         admin.setName("admin");
-        admin.setPassword("a");
+        admin.setPassword(encoder.encode("a"));
         admin.addRole(userRole);
         admin.addRole(adminRole);
         userJpaRepository.save(admin);
@@ -63,6 +63,13 @@ public class IndexController {
         task1.setUser(user);
         taskJpaRepository.save(task1);
 
+        User _admin = userJpaRepository.findByName("admin");
+        List<Role> roles = _admin.getRoles();
+
+        for(Role role : roles)
+        {
+            output += role.getName() + " - ";
+        }
 
         return new ResponseEntity<>(output, HttpStatus.OK);
     }

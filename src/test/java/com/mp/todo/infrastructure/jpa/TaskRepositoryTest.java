@@ -3,6 +3,8 @@ package com.mp.todo.infrastructure.jpa;
 import com.mp.todo.domain.Task;
 import com.mp.todo.domain.exception.BadNameException;
 import com.mp.todo.domain.factory.TaskFactory;
+import com.mp.todo.domain.repository.TaskRepository;
+import com.mp.todo.infrastructure.jpa.repository.TaskJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

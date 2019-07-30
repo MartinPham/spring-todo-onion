@@ -19,8 +19,12 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany
-    @JoinTable(name="user_role", joinColumns=@JoinColumn(name="user_id", referencedColumnName="id"), inverseJoinColumns=@JoinColumn(name="role_id", referencedColumnName="id"))
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name="user_role",
+            joinColumns=@JoinColumn(name="user_id", referencedColumnName="id"),
+            inverseJoinColumns=@JoinColumn(name="role_id", referencedColumnName="id")
+    )
     private List<Role> roles;
 
     public User() {
@@ -61,5 +65,9 @@ public class User {
 
     public void removeRole(Role role) {
         roles.remove(role);
+    }
+
+    public List<Role> getRoles() {
+        return roles;
     }
 }
