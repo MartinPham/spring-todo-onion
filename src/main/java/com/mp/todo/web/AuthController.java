@@ -9,4 +9,8 @@ public class AuthController {
     public String login() {
         return "web/auth/login";
     }
+    @GetMapping("/auth/logout")
+    public String logout() {
+        return "web/auth/logout";
+    }
 }

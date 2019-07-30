@@ -9,4 +9,9 @@ public class AuthController {
     public String login() {
         return "backoffice/auth/login";
     }
+
+    @GetMapping("/backoffice/auth/logout")
+    public String logout() {
+        return "backoffice/auth/logout";
+    }
 }

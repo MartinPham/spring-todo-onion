@@ -1,0 +1,15 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<body>
+
+<form id="form" method="post" action="/auth/logout">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <button type="submit">Logout</button>
+</form>
+<br/>
+
+<script>
+    document.getElementById('form').submit();
+</script>
+
+</body>
+</html>

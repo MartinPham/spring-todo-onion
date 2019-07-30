@@ -1,8 +1,8 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <body>
 
-<form method="post" action="/auth">
-<!--    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+<form method="post" action="/backoffice/auth">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
     <input name="username" placeholder="Username"/>
     <input type="password" name="password" placeholder="Password"/>
