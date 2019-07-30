@@ -28,7 +28,7 @@ public class TaskApiController {
 
     @GetMapping("/api/task/add")
     public void add(@RequestParam("name") String name) throws BadNameException {
-        taskEditor.createNewTask(name);
+//        taskEditor.createNewTask(name);
     }
 
     @GetMapping("/api/task/{id}/edit")

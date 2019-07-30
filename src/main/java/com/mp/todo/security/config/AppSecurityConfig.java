@@ -35,7 +35,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/task/").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/task").hasRole("USER")
                 .antMatchers(HttpMethod.GET, "/task/**/edit").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/task/**").hasRole("ADMIN")
                 .and()

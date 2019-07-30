@@ -1,6 +1,7 @@
 package com.mp.todo.application;
 
 import com.mp.todo.domain.Task;
+import com.mp.todo.domain.User;
 import com.mp.todo.domain.exception.BadNameException;
 import com.mp.todo.domain.factory.TaskFactory;
 import com.mp.todo.domain.repository.TaskRepository;
@@ -13,8 +14,9 @@ public class TaskEditor {
     @Autowired
     TaskRepository taskRepository;
 
-    public void createNewTask(String taskName) throws BadNameException {
+    public void createNewTask(User user, String taskName) throws BadNameException {
         Task task = TaskFactory.buildTaskWithName(taskName);
+        task.setUser(user);
         taskRepository.save(task);
     }
 
