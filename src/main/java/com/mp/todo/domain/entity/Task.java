@@ -13,7 +13,7 @@ import java.util.UUID;
 @Table(name = "task")
 public class Task implements com.mp.todo.domain.Task {
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id", nullable = false, length = 100)
     String id;
 
     @Column(name = "name", nullable = false)
