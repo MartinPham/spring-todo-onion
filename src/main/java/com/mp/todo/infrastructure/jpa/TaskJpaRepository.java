@@ -1,6 +1,6 @@
 package com.mp.todo.infrastructure.jpa;
 
-import com.mp.todo.domain.entity.Task;
+import com.mp.todo.domain.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 

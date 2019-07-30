@@ -4,9 +4,7 @@ import com.mp.todo.domain.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TaskRepository implements com.mp.todo.domain.repository.TaskRepository {
@@ -15,27 +13,22 @@ public class TaskRepository implements com.mp.todo.domain.repository.TaskReposit
 
     @Override
     public List<Task> findAll() {
-        List<Task> tasks = new ArrayList<>();
-        taskJpaRepository.findAll().forEach((com.mp.todo.domain.entity.Task task) -> {
-            tasks.add(task);
-        });
 
-        return tasks;
+        return taskJpaRepository.findAll();
     }
 
     @Override
     public Task find(String taskId) {
-        Optional<com.mp.todo.domain.entity.Task> task = taskJpaRepository.findById(taskId);
-        return task.get();
+        return taskJpaRepository.findById(taskId).get();
     }
 
     @Override
     public void save(Task task) {
-        taskJpaRepository.saveAndFlush((com.mp.todo.domain.entity.Task) task);
+        taskJpaRepository.saveAndFlush(task);
     }
 
     @Override
     public void delete(Task task) {
-        taskJpaRepository.delete((com.mp.todo.domain.entity.Task) task);
+        taskJpaRepository.delete(task);
     }
 }

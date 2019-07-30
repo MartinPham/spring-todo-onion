@@ -1,6 +1,6 @@
 package com.mp.todo.domain.factory;
 
-import com.mp.todo.domain.entity.Task;
+import com.mp.todo.domain.Task;
 import com.mp.todo.domain.exception.BadNameException;
 
 public class TaskFactory {
