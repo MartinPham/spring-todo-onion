@@ -3,10 +3,7 @@ package com.mp.todo.domain;
 import com.mp.todo.domain.exception.BadNameException;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
@@ -20,6 +17,9 @@ public class Task {
     private String name;
 
 
+    @ManyToOne(optional=false)
+    @JoinColumn(name="user_id", nullable=false, updatable=false)
+    private User user;
 
     public Task() {
         id = UUID.randomUUID().toString();
@@ -43,5 +43,13 @@ public class Task {
             throw new BadNameException("Task name should not be empty");
         }
         name = newName;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

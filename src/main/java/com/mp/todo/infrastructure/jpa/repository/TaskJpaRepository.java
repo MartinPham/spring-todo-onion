@@ -1,4 +1,4 @@
-package com.mp.todo.infrastructure.jpa;
+package com.mp.todo.infrastructure.jpa.repository;
 
 import com.mp.todo.domain.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
