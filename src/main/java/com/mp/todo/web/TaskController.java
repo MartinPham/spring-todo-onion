@@ -9,8 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,21 +22,32 @@ public class TaskController {
     TaskEditor taskEditor;
 
     @GetMapping("/task")
-    public String index(Model model, @RequestParam("idx") int idx) throws BadNameException {
-        taskEditor.createNewTask("T1");
-        taskEditor.createNewTask("T2");
-
+    public String index(Model model) {
 
         List<Task> tasks = taskBrowser.getTaskList();
-        Task task1 = tasks.get(0);
-        Task task2 = tasks.get(1);
 
-        taskEditor.changeTaskName(task1.getId(), "ZZZ1");
-        taskEditor.changeTaskName(task2.getId(), "ZZZ2");
-
-        List<Task> tasks2 = taskBrowser.getTaskList();
-
-        model.addAttribute("name", tasks2.get(idx).getName());
+        model.addAttribute("tasks", tasks);
         return "web/task/index";
+    }
+
+    @PostMapping("/task/add")
+    public String add(@RequestParam("name") String name) throws BadNameException {
+        taskEditor.createNewTask(name);
+        return "redirect:/task";
+    }
+
+    @GetMapping("/task/{id}/edit")
+    public String edit(Model model, @PathVariable String id) {
+
+        Task task = taskBrowser.getTaskDetail(id);
+
+        model.addAttribute("task", task);
+        return "web/task/edit";
+    }
+
+    @PostMapping("/task/{id}/edit")
+    public String edit(@PathVariable String id, @RequestParam("name") String name) throws BadNameException {
+        taskEditor.changeTaskName(id, name);
+        return "redirect:/task";
     }
 }

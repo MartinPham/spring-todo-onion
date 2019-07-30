@@ -16,4 +16,8 @@ public class TaskBrowser {
     public List<Task> getTaskList() {
         return taskRepository.findAll();
     }
+
+    public Task getTaskDetail(String id) {
+        return taskRepository.find(id);
+    }
 }
