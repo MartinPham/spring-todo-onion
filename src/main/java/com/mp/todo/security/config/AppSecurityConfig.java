@@ -29,18 +29,25 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     // Secure the endpoins with HTTP Basic authentication
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
 
-        http
-                //HTTP Basic authentication
-                .httpBasic()
-                .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/task").hasRole("USER")
-                .antMatchers(HttpMethod.GET, "/task/**/edit").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/task/**").hasRole("ADMIN")
-                .and()
-                .csrf().disable()
-                .formLogin().disable();
+        http.authorizeRequests().antMatchers("/auth/**").permitAll();
+
+        http.authorizeRequests().antMatchers("/task").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
+
+        http.authorizeRequests().antMatchers("/task/*/edit").access("hasRole('ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/task/add").access("hasRole('ROLE_ADMIN')");
+
+        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/auth/denied");
+
+        http.authorizeRequests().and().formLogin()
+                .loginProcessingUrl("/auth")
+                .loginPage("/auth/login")
+                .defaultSuccessUrl("/task")
+                .failureUrl("/auth/login?status=failure")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .and().logout().logoutUrl("/auth/logout").logoutSuccessUrl("/task");
     }
 
 
