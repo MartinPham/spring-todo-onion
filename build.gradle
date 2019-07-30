@@ -32,6 +32,7 @@ dependencies {
 	compile 'mysql:mysql-connector-java'
 //	runtimeOnly 'com.h2database:h2'
 
+	implementation 'org.springframework.boot:spring-boot-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'com.auth0:java-jwt:3.8.1'
 

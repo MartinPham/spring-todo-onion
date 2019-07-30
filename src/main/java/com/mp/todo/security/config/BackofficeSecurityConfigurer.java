@@ -30,9 +30,11 @@ public class BackofficeSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+//                .csrf().disable()
                 .antMatcher("/backoffice/**")
-                .authorizeRequests().and().formLogin()
+                .authorizeRequests()
+
+                .and().formLogin()
                     .loginProcessingUrl("/backoffice/auth")
                     .loginPage("/backoffice/auth/login")
                     .defaultSuccessUrl("/backoffice/task")

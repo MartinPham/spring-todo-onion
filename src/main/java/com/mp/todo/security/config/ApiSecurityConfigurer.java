@@ -38,6 +38,7 @@ public class ApiSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .antMatcher("/api/**")
                 .authorizeRequests()
+
                 .and()
                     .addFilter( new JWTResponseFilter(authenticationManager(), "/api/auth"))
                     .addFilter(new JWTRequestFilter(authenticationManager(), userDetailsService))
